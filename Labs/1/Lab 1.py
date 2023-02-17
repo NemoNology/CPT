@@ -1,3 +1,5 @@
+from FunctionsUnit import *
+import numpy as np
 
 ###########################################################################
 #                                   Task 1 (1)
@@ -8,15 +10,18 @@
 #
 ###########################################################################
 
-# a = float(input("Input first number - a: "))
-# b = float(input("Input second number - b: "))
+def Task1():
 
-# print(
-# f"""Theirs:
-# Sum: {a + b}
-# Substraction (a - b): {a - b}
-# Multiplication: {a * b}
-# """)
+    a = float(input("Input first number - a: "))
+    b = float(input("Input second number - b: "))
+
+    print(
+    f"""Theirs:
+    Sum: {a + b}
+    Substraction (a - b): {a - b}
+    Multiplication: {a * b}
+    """)
+
 
 ###########################################################################
 #                                   Task 2 (44)
@@ -29,41 +34,48 @@
 #
 ###########################################################################
 
-# def min(x, y, z):
 
-#     if x <= y and x <= z:
+def Task2():
 
-#         return 0
+    x = float(input("Input first number - x: "))
+    y = float(input("Input second number - y: "))
+    z = float(input("Input third number - z: "))
 
-#     elif y <= x and y <= z:
+    print(f"""Inputted values: 
+    x = {x}
+    y = {y}
+    z = {z}
+    """)
 
-#         return 1
+    if (x + y + z < 1):
+        
+        if (min(x, y, z) == 1):
 
-#     else:
+            x = (y + z) / 2
 
-#         return 2
+        if (min(x, y, z) == 2):
 
+            y = (x + z) / 2
 
-# numbers = []
+        if (min(x, y, z) == 3):
 
-# numbers.append(float(input("Input first number - x: ")))
-# numbers.append(float(input("Input second number - y: ")))
-# numbers.append(float(input("Input third number - z: ")))
+            z = (y + x) / 2
 
+    else:
 
-# if (numbers.sum < 1):
-    
-#     numbers[min(numbers)] = (numbers.sum - numbers[min(numbers)]) / 2
+        if x <= y:
 
-# else:
+            x = (y + z) / 2
 
-#     if numbers[0] <= numbers[1]:
+        else:
 
-#         numbers[0] = (numbers[1] + numbers[2]) / 2
+            y = (x + z) / 2
 
-#     else:
-
-#         numbers[1] = (numbers[0] + numbers[2]) / 2
+    print(f"""Calculated values: 
+    x = {x}
+    y = {y}
+    z = {z}
+    """)
 
 
 
@@ -78,30 +90,52 @@
 ###########################################################################
 
 
-# k = int(input("Input number k: "))
-# m = int(input("Input number m: "))
+def Task3():
 
-# x = float(input("Input number x: "))
-# y = float(input("Input number y: "))
-# z = float(input("Input number z: "))
 
-# if k < m:
+    k = int(input("Input number k: "))
+    m = int(input("Input number m: "))
 
-#     k = int(x)
-#     y -= 0.5
-#     z -= 0.5
+    x = float(input("Input number x: "))
+    y = float(input("Input number y: "))
+    z = float(input("Input number z: "))
 
-# elif k == m:
+    print(f"""Inputted values: 
+    k = {k}
+    m = {m}
 
-#     k = int(y)
-#     x -= 0.5
-#     z -= 0.5
+    x = {x}
+    y = {y}
+    z = {z}
+    """)
 
-# else:
+    if k < m:
 
-#     k = int(z)
-#     y -= 0.5
-#     x -= 0.5
+        k = int(x)
+        y -= 0.5
+        z -= 0.5
+
+    elif k == m:
+
+        k = int(y)
+        x -= 0.5
+        z -= 0.5
+
+    else:
+
+        k = int(z)
+        y -= 0.5
+        x -= 0.5
+
+
+    print(f"""Calculated values: 
+    k = {k}
+    m = {m}
+
+    x = {x}
+    y = {y}
+    z = {z}
+    """)
 
 ###########################################################################
 #                                   Task 4 (114 б)
@@ -113,12 +147,15 @@
 #
 ###########################################################################
 
-# sum = 0
+def Task4():
 
-# for i in range(1, 50):
+    sum = 0
 
-#     sum += 1 / i**3
+    for i in range(1, 50):
 
+        sum += 1 / i**3
+
+    print(f"Calculated sum: {sum}")
 
 
 ###########################################################################
@@ -131,43 +168,42 @@
 #
 ###########################################################################
 
-# n = int(input("Input number n: "))
+def Task5():
 
-# numbers = [0] * n
-# sum = 03
+    n = int(input("Input number n: "))
 
-# for i in range(0, n):
+    numbers = randomFloatList(n, -2, 2)
 
-#     numbers[i] = float(input(f"Input number a{i}: "))
+    for i in range(0, n):
 
-# for i in range(0, n):
+        sum += ((abs(numbers[i]))**(1/2) - numbers[i])**2
 
-#     sum += ((abs(numbers[i]))**(1/2) - numbers[i])**2
-
-# sum
+    print(f"Calculated sum: {sum.4f}")
 
 ###########################################################################
 #                                   Task 6 (178 a)
 #
-# Даны натуральные числа n, a 1...an. Определить количество членов ak последовательности a1,...,an:
+# Даны натуральные числа n, a1...an. Определить количество членов ak последовательности a1,...,an:
 # являющихся нечетными числами;
 #
 # https://ivtipm.github.io/Programming/Glava07/index07.htm#z178
 #
 ###########################################################################
 
+def Task6():
 
-# n = int(input("Input number n: "))
+    n = int(input("Input number n: "))
 
-# numbers = []
-# oddAmount = 0
+    numbers = randomIntList(n, 0, 100)
+    evenAmount = 0
 
-# for i in range(0, n):
+    for i in range(0, n):
 
-#     if numbers[i] % 2 == 0:
+        if numbers[i] % 2 == 0:
 
-#         oddAmount += 1
+            evenAmount += 1
 
+    print(f"Even numbers amount: {evenAmount}")
 
 ###########################################################################
 #                                   Task 7 (320)
@@ -179,17 +215,21 @@
 #
 ###########################################################################
 
-# k = 0
-# l = 0
-# res = 0
+def Task7():
 
-# for i in range(1, 10):
+    res = 0
 
-#     k = k**3
+    for k in range(1, 10):
 
-#     for j in range(1, 15):
+        for l in range(1, 15):
 
-#         res += (k - l)**2
+            res += (k - l)**2
+
+        k = k**3 * res
+
+        res = 0
+
+    print(f"Calculated sum: {res}")
 
 
 ###########################################################################
@@ -204,33 +244,32 @@
 #
 ###########################################################################
 
-# import numpy as np
+import numpy as np
 
-# n = -1
+def Task8():
 
-# while (n < 0):
+    n = -1
 
-#     n = int(input("Input number n:"))
+    while (n < 0):
 
-# A = []
-# B = []
+        n = int(input("Input number n:"))
 
-# for i in range(1, n + 1):
+    A = randomFloatList(n, -2, 2)
+    B = randomFloatList(n, -2, 2)
 
-#     A[i] = float(input(f"Input number a{i}:"))
-#     B[i] = float(input(f"Input number b{i}:"))
+    p = -1
 
-# p = -1
+    while (p > n or p < 0):
 
-# while (p < 0 and p > n):
+        p = int(input("Input number p ( p <= n and p >= 0 ):"))
 
-#     p = int(input("Input number p ( p <= n! ):"))
+    q = -1
 
-# q = -1
+    while (q < 0 and q > n + 1):
 
-# while (q < 0 and q > n + 1):
-
-#     q = int(input("Input number q ( q <= n + 1! ):"))
+        q = int(input("Input number q ( q <= n + 1 and q >= 0 ):"))
 
 
-# startMatrix = np.ar
+    # startMatrix = np.ar
+
+
