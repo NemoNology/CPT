@@ -1,6 +1,8 @@
 from FunctionsUnit import *
 import numpy as np
 
+__author__ = "NemoNology (Банковский А.С.)"
+
 ###########################################################################
 #                                   Task 1 (1)
 #
@@ -141,17 +143,17 @@ def Task3():
 #                                   Task 4 (114 б)
 #
 # Вычислить: 
-# б) алгебраическая сумма (in range(i = 1, 50)) 1 / i^3
+# б) алгебраическая сумма (in range(i = 1, 50)) i^-3
 #
 # https://ivtipm.github.io/Programming/Glava04/index04.htm#z114
 #
 ###########################################################################
 
-def Task4(f = lambda x: 1 / x**3):
+def Task4(f = lambda x: x**-3):
     """print sum of function f(x), where x = n..m with step h
 
     Args:
-        f (function, optional): labda expression - function f(x). Defaults to lambda x : 1/x**3
+        f (function, optional): labda expression - function f(x). Defaults to lambda x : x^-3
     """
 
     print("Task: sum of function f(x), where x = n..m with step h: ")
@@ -172,27 +174,26 @@ def Task4(f = lambda x: 1 / x**3):
 ###########################################################################
 #                                   Task 5 (136 н)
 #
-# Даны натуральное число n, действительные числа a1,..., an. Вычислить:
+# Даны натуральное число n, действительные числа a1, ..., an. 
+# Вычислить: (√(|x|) - x)^2
 # (Пример см. по ссылке)
 #
 # https://ivtipm.github.io/Programming/Glava06/index06.htm#z136
 #
 ###########################################################################
 
-# TODO: use map
+def Task5(numbers : list = [rnd.uniform(-2, 2) for i in range(0, 10)], f = lambda x: (abs(x) ** (1 / 2) - x) ** 2):
+    """Print sum of function f(x), where x = numbers[0]..numbers[len(numbers)]
 
-def Task5():
+    Args:
+        numbers (list, optional): Inputting list of numbers,\n
+        that will be input at function f(x) and sum. Defaults to list(10) filled with random.uniform(-2, 2).\n
+        f (function, optional): Inputting function. Defaults to lambda x: (√(|x|) - x)^2.
+    """
 
-    n = int(input("Input number n: "))
+    for i in range(0, len(numbers)):
 
-    numbers = randomFloatList(n, -2, 2)
-
-    print("Matrix:\n")
-    print_matrix(numbers)
-
-    for i in range(0, n):
-
-        sum += ((abs(numbers[i]))**(1/2) - numbers[i])**2
+        sum += f(numbers[i])
 
     print(f"Calculated sum: {sum:.4f}")
 
@@ -206,54 +207,55 @@ def Task5():
 #
 ###########################################################################
 
-def Task6():
+def Task6(numbers : list = [rnd.randint(-50, 50) for i in range(0, 10)], f = lambda x: x % 2 == 0):
+    """Print list elements amount that were True (Match) at the output of the predicate f(x),
+        where x = numbers[0]..numbers[len(numbers)]
 
-    n = int(input("Input number n: "))
+    Args:
+        numbers (list, optional): Inputting list of numbers,\n
+        that will be input at function f(x) and checked. Defaults to list(10) filled with random.randint(-50, 50).\n
+        f (function-predicate, optional): Inputting function-predicate. Defaults to lambda x: x % 2 == 0.
+    """
 
-    numbers = randomIntList(n, -50, 50)
-    evenAmount = 0
+    matchCount = 0
 
-    print("Matrix:\n")
-    print_matrix(numbers)
+    for i in range(0, len(numbers)):
 
-    for i in range(0, n):
+        if f(numbers[i]):
 
-        if numbers[i] % 2 == 0:
+            matchCount += 1
 
-            evenAmount += 1
-
-    print(f"Even numbers amount: {evenAmount}")
+    print(f"Match elements amount: {matchCount}")
 
 ###########################################################################
 #                                   Task 7 (320)
 #
-# Вычилить:
+# Вычилить: Σ(1, N) (k^3) * Σ(1, M) ((k - l)^2)
 # (Пример см. по ссылке)
 #
 # https://ivtipm.github.io/Programming/Glava10/index10.htm#z320
 #
 ###########################################################################
 
-# TODO: use map
-
-def Task7():
+def Task7(f1 = lambda x, y: x ** 3 * y,
+          f2 = lambda x, y: (x - y)**2):
 
     print("Task: Σ(1, N) (k^3) * Σ(1, M) ((k - l)^2)")
 
     n = int(input("Input N: "))
     m = int(input("Input M: "))
 
-    res = 0
+    buffer, res = 0
 
     for k in range(1, n):
 
         for l in range(1, m):
 
-            res += (k - l)**2
+            buffer += (k - l)**2
 
-        k = k**3 * res
+        res += k**3 * buffer
 
-        res = 0
+        buffer = 0
 
     print(f"Calculated sum: {res}")
 
@@ -312,7 +314,3 @@ def Task8():
 
     print("Final matrix:")
     print_matrix(matrix)
-
-
-
-Task8()
