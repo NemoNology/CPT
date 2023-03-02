@@ -147,11 +147,11 @@ def Task3():
 #
 ###########################################################################
 
-def Task4(f : function = lambda x: 1 / x**3):
+def Task4(f = lambda x: 1 / x**3):
     """print sum of function f(x), where x = n..m with step h
 
     Args:
-        f (lambda, optional): labda expression - function f(x). Defaults to lambda x : 1/x**3
+        f (function, optional): labda expression - function f(x). Defaults to lambda x : 1/x**3
     """
 
     print("Task: sum of function f(x), where x = n..m with step h: ")
@@ -278,8 +278,11 @@ def Task8():
 
         n = int(input("Input number n:"))
 
-    A = randomFloatList(n, -2, 2)
-    B = randomFloatList(n, -2, 2)
+    # B = np.random.uniform(-2, 2, n + 1)
+    # A = np.random.uniform(-2, 2, n + 1)
+
+    A = np.zeros(n + 1) 
+    B = np.zeros(n + 1) 
 
     p = -1
 
@@ -289,9 +292,9 @@ def Task8():
 
     q = -1
 
-    # while (q > n + 1 or q < 0 ):
+    while (q > n + 1 or q < 0 ):
 
-        # q = int(input("Input number q ( q <= n + 1 and q >= 0 ):"))
+        q = int(input("Input number q ( q <= n + 1 and q >= 0 ):"))
 
 
     matrix = np.random.uniform(-2, 2, (n, n + 1))
@@ -299,15 +302,13 @@ def Task8():
     print("Start matrix:")
     print_matrix(matrix)
 
-    matrix = np.vstack((matrix, A), )
-    
-    # insert(matrix, p, A)
-    # matrix = np.insert(matrix, q, B, axis=1)
+    matrix = np.insert(matrix, p + 1, A, 0).reshape(n + 1, n + 1)
+    matrix = np.insert(matrix, q + 1, B, 1).reshape(n + 1, n + 2)
 
-    print("Adding vectors:\nA:\n")
-    print_matrix(A, 99)
-    print("B:\n")
-    print_matrix(B, 1)
+    # print("Adding vectors:\nA:")
+    # print_matrix(A)
+    # print("B:")
+    # print_matrix(B, False)
 
     print("Final matrix:")
     print_matrix(matrix)

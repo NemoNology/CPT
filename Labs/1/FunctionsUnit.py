@@ -37,12 +37,12 @@ def printList(lst: list, nextLineCounter = 5):
 
             print()
 
-def print_matrix(matrix: np.array, nextLineCounter: int = 5):
+def print_matrix(matrix: np.array, is_horisontal : bool = True):
     """Print matrix (Max 2D) in normal veiw
 
     Args:
         matrix (np.array): printing matrix
-        nextLineCounter (int, optional): Matrix elements in one line amount. Defaults to 5.
+        is_horisontal (bool, optional): True - print horisontal vector (1D matrix); False - vertical 
     """
 
     if (matrix.ndim > 2 or matrix.ndim == 0):
@@ -56,7 +56,7 @@ def print_matrix(matrix: np.array, nextLineCounter: int = 5):
 
             for j in range(0, m):
 
-                print(f"{matrix[i, j]:8.3f}", end="")
+                print(f"{matrix[i, j]:10.3f}", end="")
 
             print("")
 
@@ -64,13 +64,11 @@ def print_matrix(matrix: np.array, nextLineCounter: int = 5):
 
         n = len(matrix)
 
+        ending = "" if is_horisontal else "\n" 
+
         for i in range(0, n):
 
-             print(f"{matrix[i]:8.3f}", end="")
-
-             if (i % nextLineCounter == 0):
-                 
-                 print("")
+             print(f"{matrix[i]:10.3f}", end=ending)
 
         print("")
 
