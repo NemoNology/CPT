@@ -16,7 +16,7 @@ def Task1():
     b = float(input("Input second number - b: "))
 
     print(
-    f"""Theirs:
+    f"""Their:
     Sum: {a + b}
     Substraction (a - b): {a - b}
     Multiplication: {a * b}
@@ -42,9 +42,9 @@ def Task2():
     z = float(input("Input third number - z: "))
 
     print(f"""Inputted values: 
-    x = {x}
-    y = {y}
-    z = {z}
+    x = {x:.3f}
+    y = {y:.3f}
+    z = {z:.3f}
     """)
 
     if (x + y + z < 1):
@@ -72,9 +72,9 @@ def Task2():
             y = (x + z) / 2
 
     print(f"""Calculated values: 
-    x = {x}
-    y = {y}
-    z = {z}
+    x = {x:.3f}
+    y = {y:.3f}
+    z = {z:.3f}
     """)
 
 
@@ -104,9 +104,9 @@ def Task3():
     k = {k}
     m = {m}
 
-    x = {x}
-    y = {y}
-    z = {z}
+    x = {x:.3f}
+    y = {y:.3f}
+    z = {z:.3f}
     """)
 
     if k < m:
@@ -132,9 +132,9 @@ def Task3():
     k = {k}
     m = {m}
 
-    x = {x}
-    y = {y}
-    z = {z}
+    x = {x:.3f}
+    y = {y:.3f}
+    z = {z:.3f}
     """)
 
 ###########################################################################
@@ -147,15 +147,26 @@ def Task3():
 #
 ###########################################################################
 
-def Task4():
+def Task4(f : function = lambda x: 1 / x**3):
+    """print sum of function f(x), where x = n..m with step h
+
+    Args:
+        f (lambda, optional): labda expression - function f(x). Defaults to lambda x : 1/x**3
+    """
+
+    print("Task: sum of function f(x), where x = n..m with step h: ")
+
+    m = int(input("input m:"))
+    n = int(input("input n:"))
+    h = int(input("input h:"))
 
     sum = 0
 
-    for i in range(1, 50):
+    for x in range(m, n, h):
 
-        sum += 1 / i**3
+        sum += f(x)
 
-    print(f"Calculated sum: {sum}")
+    print(f"Calculated sum: {sum:.4f}")
 
 
 ###########################################################################
@@ -168,17 +179,22 @@ def Task4():
 #
 ###########################################################################
 
+# TODO: use map
+
 def Task5():
 
     n = int(input("Input number n: "))
 
     numbers = randomFloatList(n, -2, 2)
 
+    print("Matrix:\n")
+    print_matrix(numbers)
+
     for i in range(0, n):
 
         sum += ((abs(numbers[i]))**(1/2) - numbers[i])**2
 
-    print(f"Calculated sum: {sum.4f}")
+    print(f"Calculated sum: {sum:.4f}")
 
 ###########################################################################
 #                                   Task 6 (178 a)
@@ -194,8 +210,11 @@ def Task6():
 
     n = int(input("Input number n: "))
 
-    numbers = randomIntList(n, 0, 100)
+    numbers = randomIntList(n, -50, 50)
     evenAmount = 0
+
+    print("Matrix:\n")
+    print_matrix(numbers)
 
     for i in range(0, n):
 
@@ -215,13 +234,20 @@ def Task6():
 #
 ###########################################################################
 
+# TODO: use map
+
 def Task7():
+
+    print("Task: Σ(1, N) (k^3) * Σ(1, M) ((k - l)^2)")
+
+    n = int(input("Input N: "))
+    m = int(input("Input M: "))
 
     res = 0
 
-    for k in range(1, 10):
+    for k in range(1, n):
 
-        for l in range(1, 15):
+        for l in range(1, m):
 
             res += (k - l)**2
 
@@ -244,8 +270,6 @@ def Task7():
 #
 ###########################################################################
 
-import numpy as np
-
 def Task8():
 
     n = -1
@@ -265,11 +289,29 @@ def Task8():
 
     q = -1
 
-    while (q < 0 and q > n + 1):
+    # while (q > n + 1 or q < 0 ):
 
-        q = int(input("Input number q ( q <= n + 1 and q >= 0 ):"))
-
-
-    # startMatrix = np.ar
+        # q = int(input("Input number q ( q <= n + 1 and q >= 0 ):"))
 
 
+    matrix = np.random.uniform(-2, 2, (n, n + 1))
+
+    print("Start matrix:")
+    print_matrix(matrix)
+
+    matrix = np.vstack((matrix, A), )
+    
+    # insert(matrix, p, A)
+    # matrix = np.insert(matrix, q, B, axis=1)
+
+    print("Adding vectors:\nA:\n")
+    print_matrix(A, 99)
+    print("B:\n")
+    print_matrix(B, 1)
+
+    print("Final matrix:")
+    print_matrix(matrix)
+
+
+
+Task8()
