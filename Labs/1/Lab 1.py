@@ -251,9 +251,9 @@ def Task7(f1 = lambda x, y: x ** 3 * y,
 
         for l in range(1, m):
 
-            buffer += (k - l)**2
+            buffer += f2(k, l)
 
-        res += k**3 * buffer
+        res += f1(k, buffer)
 
         buffer = 0
 
