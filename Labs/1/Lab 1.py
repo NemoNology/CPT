@@ -149,26 +149,21 @@ def Task3():
 #
 ###########################################################################
 
-def Task4(f = lambda x: x**-3):
+def Task4(f = lambda x: x**-3, tuple_len3 = (1, 15, 1)):
     """print sum of function f(x), where x = n..m with step h
 
     Args:
-        f (function, optional): labda expression - function f(x). Defaults to lambda x : x^-3
+        f (function, optional): labda expression - function f(x). Defaults to lambda x : x^-3.
+        tuple_len3 (tuple, optional): tuple. Defaults to tuple: (1, 15, 1).
     """
 
-    print("Task: sum of function f(x), where x = n..m with step h: ")
+    if (len(tuple_len3) != 3):
 
-    m = int(input("input m:"))
-    n = int(input("input n:"))
-    h = int(input("input h:"))
+        raise Exception(f"Invalid argument: tuple_len3 length is not 3")
 
-    sum = 0
-
-    for x in range(m, n, h):
-
-        sum += f(x)
-
-    print(f"Calculated sum: {sum:.4f}")
+    m, n, h = tuple_len3
+    
+    print(f"Calculated sum: {func_sum(f, range(m, n, h)):.4f}")
 
 
 ###########################################################################
@@ -190,6 +185,10 @@ def Task5(numbers : list = [rnd.uniform(-2, 2) for i in range(0, 10)], f = lambd
         that will be input at function f(x) and sum. Defaults to list(10) filled with random.uniform(-2, 2).\n
         f (function, optional): Inputting function. Defaults to lambda x: (√(|x|) - x)^2.
     """
+
+    printList(numbers)
+
+    sum = 0
 
     for i in range(0, len(numbers)):
 
@@ -217,6 +216,8 @@ def Task6(numbers : list = [rnd.randint(-50, 50) for i in range(0, 10)], f = lam
         f (function-predicate, optional): Inputting function-predicate. Defaults to lambda x: x % 2 == 0.
     """
 
+    print_list(numbers)
+
     matchCount = 0
 
     for i in range(0, len(numbers)):
@@ -238,14 +239,13 @@ def Task6(numbers : list = [rnd.randint(-50, 50) for i in range(0, 10)], f = lam
 ###########################################################################
 
 def Task7(f1 = lambda x, y: x ** 3 * y,
-          f2 = lambda x, y: (x - y)**2):
+          f2 = lambda x, y: (x - y)**2, tuple_len2 = (10, 20)):
 
     print("Task: Σ(1, N) (k^3) * Σ(1, M) ((k - l)^2)")
 
     n = int(input("Input N: "))
     m = int(input("Input M: "))
 
-    buffer, res = 0
 
     for k in range(1, n):
 

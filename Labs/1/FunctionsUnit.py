@@ -16,8 +16,7 @@ def min(x, y, z):
 
         return 3
 
-
-def printList(lst: list, nextLineCounter = 5):
+def print_list(lst: list, nextLineCounter = 5):
     """Print list in normal view
 
     Args:
@@ -29,13 +28,13 @@ def printList(lst: list, nextLineCounter = 5):
 
     for x in lst:
 
-        print(f"{x:5.3f}\t")
+        print(f"{x:5.3f}\t", end='')
 
-        counter += 1
-
-        if counter == nextLineCounter:
+        if (counter % nextLineCounter == 0 and counter != 0):
 
             print()
+
+        counter += 1
 
 def print_matrix(matrix: np.array, is_horisontal : bool = True):
     """Print matrix (Max 2D) in normal veiw
@@ -72,7 +71,6 @@ def print_matrix(matrix: np.array, is_horisontal : bool = True):
 
         print("")
 
-
 def randomIntList(elementsAmount : int, minValue : int, maxValue : int):
     """Функция возвращающая случайный список из int элементов\n
     elementsAmount - длина массива/кол-во элементов в нём\n
@@ -82,7 +80,6 @@ def randomIntList(elementsAmount : int, minValue : int, maxValue : int):
     
     return list(rnd.randint(minValue, maxValue) for i in range(elementsAmount))
 
-
 def randomFloatList(elementsAmount : float, minValue : float, maxValue : float):
     """Функция возвращающая случайный список из int элементов\n
     elementsAmount - длина массива/кол-во элементов в нём\n
@@ -91,3 +88,19 @@ def randomFloatList(elementsAmount : float, minValue : float, maxValue : float):
     """
     
     return list(rnd.uniform(minValue, maxValue) for i in range(elementsAmount))
+
+def func_sum(func, values : list):
+    """ Returns sum of function f(x), where x = list[0]..list[-1]
+
+    Args:
+        f (function): function/labda expression - function f(x).
+        values (list): list of summing values.
+    """
+
+    sum = 0
+
+    for x in values:
+
+        sum += func(x)
+
+    return sum
