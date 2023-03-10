@@ -24,13 +24,13 @@ def print_list(lst: list, nextLineCounter = 5):
         nextLineCounter (int, optional): List elements in one line amount. Defaults to 5.
     """
 
-    counter = 0
+    counter = 1
 
     for x in lst:
 
         print(f"{x:5.3f}\t", end='')
 
-        if (counter % nextLineCounter == 0 and counter != 0):
+        if (counter % nextLineCounter == 0):
 
             print()
 
