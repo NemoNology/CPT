@@ -1,5 +1,6 @@
 from Lab_1 import *
 import unittest as ut
+import numpy as np
 
 __author__ = "NemoNology (Банковский А.С.)"
 
@@ -78,9 +79,80 @@ class Lab1UnitTest(ut.TestCase):
 
     def test_task4(self):
 
-        self.assertEquals(task4(lambda x: x, (1, 10, 1)), 45)
-        self.assertEquals(task4(lambda x: x, (1, 10, 10)), 1)
+        self.assertEqual(task4(lambda x: x, (1, 10, 1)), 45)
+        self.assertEqual(task4(lambda x: x, (1, 10, 10)), 1)
         self.assertAlmostEqual(task4(lambda x: x**-1, (1, 10, 1)), 2.828968253968254)
 
+    def test_task5(self):
+
+        self.assertEqual(task5(range(1, 10), lambda x: x), 45)
+        self.assertEqual(task5(range(1, 10), lambda x: x * 0), 0)
+        self.assertAlmostEqual(task5(range(1, 10), lambda x: x**-1), 2.828968253968254)
+        self.assertEqual(task5([x**2 for x in range(1, 5)], lambda x: x), 30)
+
+    def test_task6(self):
+
+        self.assertEqual(task6(range(1, 11)), 5)
+        self.assertEqual(task6(range(1, 11), lambda x: x % 2 != 0), 5)
+        self.assertEqual(task6(range(1, 11), lambda x: x != 0), 10)
+        self.assertEqual(task6(range(1, 11), lambda x: x == 0), 0)
+
+    def test_task7(self):
+
+        self.assertAlmostEqual(task7(lambda x, y: x, lambda x, y: y, 2, 2), 1)
+        self.assertAlmostEqual(task7(lambda x, y: x, lambda x, y: y, 0, 0), 0)
+
+    def test_task8(self):
+
+        # Raises tests
+        with self.assertRaises(Exception):
+            task8(-3, 4, 4)
+            task8(4, 5, 4)
+            task8(4, 2, 7)
+
+        # First test
+        m = task8(0, -1, 0)
+        o = np.array([[0, 0]])
+
+        self.assertEqual(m.all(), o.all())
+
+        # Second test
+        m = task8(4, 2, 2, True)
+        o = np.array([[1, 1, 0, 1, 1, 1], 
+                      [1, 1, 0, 1, 1, 1],
+                      [0, 0, 0, 0, 0, 0],
+                      [1, 1, 0, 1, 1, 1],
+                      [1, 1, 0, 1, 1, 1]])
+        
+        self.assertEqual(m.all(), o.all())
+        
+        # Third test
+        m = task8(4, -1, -1, True)
+        o = np.array([[0, 0, 0, 0, 0, 0], 
+                      [0, 1, 1, 1, 1, 1],
+                      [0, 1, 1, 1, 1, 1],
+                      [0, 1, 1, 1, 1, 1],
+                      [0, 1, 1, 1, 1, 1]])
+        
+        self.assertEqual(m.all(), o.all())
+
+        # Fourth test
+        m = task8(4, 3, 4, True)
+        o = np.array([[1, 1, 1, 1, 0, 1], 
+                      [1, 1, 1, 1, 0, 1],
+                      [1, 1, 1, 1, 0, 1],
+                      [0, 0, 0, 0, 0, 0],
+                      [1, 1, 1, 1, 0, 1]])
+        
+        # Fifth test
+        m = task8(5, 0, 5, True)
+        o = np.array([[1, 1, 1, 1, 1, 1, 0],
+                      [0, 0, 0, 0, 0, 0, 0], 
+                      [1, 1, 1, 1, 1, 1, 0],
+                      [1, 1, 1, 1, 1, 1, 0],
+                      [1, 1, 1, 1, 1, 1, 0],
+                      [1, 1, 1, 1, 1, 1, 0]])
+        
+        self.assertEqual(m.all(), o.all())
 
 ut.main()

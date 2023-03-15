@@ -159,9 +159,6 @@ def task4(f = lambda x: x**-3, tuple_len3 = (1, 15, 1)):
     
     return func_sum(f, range(m, n, h))
 
-
-
-
 ###########################################################################
 #                                   Task 5 (136 н)
 #
@@ -174,7 +171,7 @@ def task4(f = lambda x: x**-3, tuple_len3 = (1, 15, 1)):
 ###########################################################################
 
 def task5(numbers : list = [rnd.uniform(-2, 2) for i in range(0, 10)], f = lambda x: (abs(x) ** (1 / 2) - x) ** 2):
-    """Print sum of function f(x), where x = numbers[0]..numbers[len(numbers)]
+    """Return sum of function f(x), where x = numbers[0]..numbers[len(numbers)]
 
     Args:
         numbers (list, optional): Inputting list of numbers,\n
@@ -182,15 +179,13 @@ def task5(numbers : list = [rnd.uniform(-2, 2) for i in range(0, 10)], f = lambd
         f (function, optional): Inputting function. Defaults to lambda x: (√(|x|) - x)^2.
     """
 
-    print_list(numbers)
-
     sum = 0
 
     for i in range(0, len(numbers)):
 
         sum += f(numbers[i])
 
-    print(f"Calculated sum: {sum:.4f}")
+    return sum
 
 ###########################################################################
 #                                   Task 6 (178 a)
@@ -203,7 +198,7 @@ def task5(numbers : list = [rnd.uniform(-2, 2) for i in range(0, 10)], f = lambd
 ###########################################################################
 
 def task6(numbers : list = [rnd.randint(-50, 50) for i in range(0, 10)], f = lambda x: x % 2 == 0):
-    """Print list elements amount that were True (Match) at the output of the predicate f(x),
+    """Return list elements amount that were True (Match) at the output of the predicate f(x),
         where x = numbers[0]..numbers[len(numbers)]
 
     Args:
@@ -211,8 +206,6 @@ def task6(numbers : list = [rnd.randint(-50, 50) for i in range(0, 10)], f = lam
         that will be input at function f(x) and checked. Defaults to list(10) filled with random.randint(-50, 50).\n
         f (function-predicate, optional): Inputting function-predicate. Defaults to lambda x: x % 2 == 0.
     """
-
-    print_list(numbers)
 
     matchCount = 0
 
@@ -222,7 +215,7 @@ def task6(numbers : list = [rnd.randint(-50, 50) for i in range(0, 10)], f = lam
 
             matchCount += 1
 
-    print(f"Match elements amount: {matchCount}")
+    return matchCount
 
 ###########################################################################
 #                                   Task 7 (320)
@@ -237,7 +230,7 @@ def task6(numbers : list = [rnd.randint(-50, 50) for i in range(0, 10)], f = lam
 def task7(f1 = lambda x, y: x ** 3 * y,
           f2 = lambda x, y: (x - y)**2, 
           N : int = 10, M : int = 20):
-    """Print sum of Σ(1..N):
+    """Return sum of Σ(1..N):
             ( f1(x,  y = Σ(1..M): 
                 ( f2(x, y) )
                 ))
@@ -249,9 +242,7 @@ def task7(f1 = lambda x, y: x ** 3 * y,
         M (int, optional): second function calculation count. Defaults to 20.
     """
 
-    print("Task: Σ(1, N) (k^3) * Σ(1, M) ((k - l)^2)")
-
-    res = 0
+    res, buffer = 0, 0
 
     for k in range(1, N):
 
@@ -263,7 +254,7 @@ def task7(f1 = lambda x, y: x ** 3 * y,
 
         buffer = 0
 
-    print(f"Calculated sum: {res}")
+    return res
 
 
 ###########################################################################
@@ -278,45 +269,38 @@ def task7(f1 = lambda x, y: x ** 3 * y,
 #
 ###########################################################################
 
-def task8():
+def task8(n : int = 4, p : int = 2, q : int = 3, isOnesMatrix : bool = False):
+    """Даны действительная матрица размера n x (n + 1),
+    натуральные числа p, q (p ≤ n, q ≤ n+1). Образовать матрицу размера (n + 1) x (n + 2) вставкой после строки
+    с номером р данной матрицы новой строки 
+    и последующей вставкоq после столбца с номером q нового столбца с элементами b1, ..., bn+1.
 
-    n = -1
+    Args:
+        n (int, optional): Start Matrix Rows count. Defaults to 4.
+        p (int, optional): Ather that row will be inputed new zeros row. Defaults to 2.
+        q (int, optional): Ather that column will be inputed new zeros column. Defaults to 3.
+        isOnesMatrix (bool, optional): If true: start matrix will be storage only ones (1). Defaults to False. 
+    """
 
-    while (n < 0):
+    if (n < 0 or p > n or q > n + 1):
 
-        n = int(input("Input number n:"))
-
-    # B = np.random.uniform(-2, 2, n + 1)
-    # A = np.random.uniform(-2, 2, n + 1)
+        raise Exception("Invalid Data")
 
     A = np.zeros(n + 1) 
     B = np.zeros(n + 1) 
 
-    p = -1
+    if (isOnesMatrix):
+        
+        matrix = np.ones((n, n + 1))
 
-    while (p > n or p < 0):
+    else:
 
-        p = int(input("Input number p ( p <= n and p >= 0 ):"))
-
-    q = -1
-
-    while (q > n + 1 or q < 0 ):
-
-        q = int(input("Input number q ( q <= n + 1 and q >= 0 ):"))
-
-
-    matrix = np.random.uniform(-2, 2, (n, n + 1))
-
-    print("Start matrix:")
-    print_matrix(matrix)
+        matrix = np.random.randint(1, 10, (n, n + 1))
+    
 
     matrix = np.insert(matrix, p + 1, A, 0).reshape(n + 1, n + 1)
     matrix = np.insert(matrix, q + 1, B, 1).reshape(n + 1, n + 2)
 
-    # print("Adding vectors:\nA:")
-    # print_matrix(A)
-    # print("B:")
-    # print_matrix(B, False)
+    return matrix
 
-    print("Final matrix:")
-    print_matrix(matrix)
+print(task8(0, -1, -1))
