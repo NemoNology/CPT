@@ -15,7 +15,7 @@ __author__ = "NemoNology (Банковский А.С.)"
 def task1(a: float, b: float):
     """Return a + b, a - b, a * b as 3-elements Tuple"""
 
-    return (a + b, a - b, a * b)
+    return [a + b, a - b, a * b]
 
 
 
@@ -74,7 +74,7 @@ def task2(x : float, y : float, z : float):
     # z = {z:.3f}
     # """)
 
-    return (x, y, z)
+    return [x, y, z]
 
 
 
@@ -131,7 +131,7 @@ def task3(k: int, m :int, x : float, y : float, z : float):
     # z = {z:.3f}
     # """)
 
-    return (k, m, x, y, z)
+    return [k, m, x, y, z]
 
 ###########################################################################
 #                                   Task 4 (114 б)
