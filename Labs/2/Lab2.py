@@ -4,6 +4,7 @@ import numpy as np
 import seaborn as sb
 # import pandas as pd
 import matplotlib.pyplot as pl
+import math
 
 
 def task1(N: int = 3, M: int = 7, isRandIntMatrix: bool = False):
@@ -45,3 +46,22 @@ def task3(matrix2D: np.ndarray):
     pl.show()
 
 
+def task4(matrix2D: np.ndarray):
+
+    sb.histplot(matrix2D.ravel())
+    pl.show()
+
+
+def m(x): return x**2
+
+
+print(type(m))
+
+
+def task5(function=lambda x: (math.sin(x) - math.tan(x) * math.log(x)) * math.cbrt(x**-1) + math.sqrt(x) * x):
+
+    rng = list(range(1, 100))
+    data = [function(x / 10) for x in rng]
+
+    pl.plot(data)
+    pl.show()
