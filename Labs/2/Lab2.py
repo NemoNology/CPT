@@ -3,7 +3,7 @@ from Lab2_task2 import *
 import numpy as np
 
 
-def task1(N: int = 3, M: int = 7):
+def task1(N: int = 3, M: int = 7, isRandIntMatrix: bool = False):
     """Return a random N x M 2D matrix (ndarray)
 
     Args:
@@ -11,7 +11,13 @@ def task1(N: int = 3, M: int = 7):
         M (int, optional): Columns amount. Defaults to 7.
     """
 
-    return np.random.uniform(-2, 2, (N, M))
+    if isRandIntMatrix:
+
+        return np.random.randint(-10, 10, (N, M))
+
+    else:
+
+        return np.random.uniform(-2, 2, (N, M))
 
 
 def task2_test():
@@ -30,4 +36,3 @@ def task2_test():
     printMatrix(answer)
 
 
-task2_test()
