@@ -52,12 +52,6 @@ def task4(matrix2D: np.ndarray):
     pl.show()
 
 
-def m(x): return x**2
-
-
-print(type(m))
-
-
 def task5(function=lambda x: (math.sin(x) - math.tan(x) * math.log(x)) * math.cbrt(x**-1) + math.sqrt(x) * x):
 
     rng = list(range(1, 100))
