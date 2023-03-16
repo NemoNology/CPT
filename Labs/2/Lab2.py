@@ -1,6 +1,9 @@
 from FunctionsUnit import *
 from Lab2_task2 import *
 import numpy as np
+import seaborn as sb
+# import pandas as pd
+import matplotlib.pyplot as pl
 
 
 def task1(N: int = 3, M: int = 7, isRandIntMatrix: bool = False):
@@ -34,5 +37,11 @@ def task2_test():
 
     printMatrix(task2(m))
     printMatrix(answer)
+
+
+def task3(matrix2D: np.ndarray):
+
+    sb.heatmap(matrix2D, annot=True, cmap='binary')
+    pl.show()
 
 
