@@ -34,10 +34,13 @@ def task2_test():
         [0.91, -0.04, -0.41, -0.24, 0.09, 0.66]
     ])
 
+    m1 = np.array(m)
+
     answer = np.array([-3.2017, 0.089519, -1.334208, -18.306746, -15.150182])
 
-    printMatrix(task2(m))
-    printMatrix(answer)
+    print("Mine:"); printMatrix(task2(m))
+    print("NumPy:"); printMatrix(np.linalg.solve(m[:, :-1], m[:, -1:]).reshape(1, 5))
+    print("Answers:"); printMatrix(answer)
 
 
 def task3(matrix2D: np.ndarray):
@@ -59,3 +62,6 @@ def task5(function=lambda x: (math.sin(x) - math.tan(x) * math.log(x)) * math.cb
 
     pl.plot(data)
     pl.show()
+
+
+task2_test()
