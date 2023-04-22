@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Channels;
 
 namespace Project
 {
     internal class GameLife
     { 
-        private int _gameSize = 20;
+        private readonly int _gameSize;
         private bool[,] _zone;
 
         /// <summary>
@@ -35,7 +34,13 @@ namespace Project
         /// </summary>
         public void Move()
         {
-            bool[,] buffer = new bool[_gameSize + 2, _gameSize + 2];
+            bool[,] buffer = _zone.Clone() as bool[,];
+
+            if (buffer == null)
+            {
+                return;
+            }
+
             var changes = new List<(int x, int y, bool newValue)>();
 
             for (int y = 1; y <= _gameSize; y++)
@@ -85,6 +90,12 @@ namespace Project
 
                         changes.Add(new(x - 1, y - 1, true));
                     }
+                    else
+                    {
+                        _zone[y, x] = false;
+
+                        changes.Add(new(x - 1, y - 1, false));
+                    }
                 }
             }
 
@@ -100,7 +111,7 @@ namespace Project
         {
             _zone[y, x] = !_zone[y, x];
 
-            Changes?.Invoke(new List<(int x, int y, bool newValue)> { (x, y, _zone[y, x]) });
+            Changes?.Invoke(new List<(int x, int y, bool newValue)> { (x - 1, y - 1, _zone[y, x]) });
         }
 
         /// <summary>
