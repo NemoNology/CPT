@@ -14,7 +14,7 @@ namespace Project
         public event Action<List<(int x, int y, bool newValue)>> Changes;
 
         /// <summary>
-        /// Initialize new GameLife object with inputted game zone/field size and random fill it
+        /// Initialize new GameLife object with inputted game zone/field size
         /// </summary>
         /// <param name="gameSize"> Size of game zone/field </param>
         /// <param name="isGameFieldNeedsToBeRandomFilled"> If true -
