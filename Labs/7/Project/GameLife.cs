@@ -5,30 +5,27 @@ namespace Project
 {
     internal class GameLife
     { 
-        private int GameSize = 20;
+        private int _gameSize = 20;
         private bool[,] _zone;
+
+        /// <summary>
+        /// Size if game zone/field
+        /// </summary>
+        public int GameSize => _gameSize;
 
         /// <summary>
         /// Event notifying about changes in the state of cells on the game field/zone
         /// </summary>
-        public event Action<List<(int x, int y, bool newValue)>> Changes;
+        public event Action<List<(int x, int y, bool newValue)>>? Changes;
 
         /// <summary>
         /// Initialize new GameLife object with inputted game zone/field size
         /// </summary>
         /// <param name="gameSize"> Size of game zone/field </param>
-        /// <param name="isGameFieldNeedsToBeRandomFilled"> If true -
-        /// fill game zone/field with live or dead cells - randomly <br/>
-        /// False - game zone/field will be empty </param>
-        public GameLife(int gameSize = 20, bool isGameFieldNeedsToBeRandomFilled = true)
+        public GameLife(int gameSize = 20)
         {
-            GameSize = gameSize;
+            _gameSize = gameSize;
             _zone = new bool[gameSize + 2, gameSize + 2];
-
-            if (isGameFieldNeedsToBeRandomFilled)
-            {
-                RandomFilling();
-            }
         }
 
         /// <summary>
@@ -37,13 +34,12 @@ namespace Project
         /// </summary>
         public void Move()
         {
-            bool[,] buffer = new bool[GameSize + 2, GameSize + 2];
-
+            bool[,] buffer = new bool[_gameSize + 2, _gameSize + 2];
             var changes = new List<(int x, int y, bool newValue)>();
 
-            for (int y = 1; y < GameSize + 1; y++)
+            for (int y = 1; y < _gameSize + 1; y++)
             {
-                for (int x = 1; x < GameSize + 1; x++)
+                for (int x = 1; x < _gameSize + 1; x++)
                 {
                     var neighborsAmount = CalculateNeighbors(x, y);
                     var isCellLive = _zone[y, x];
@@ -76,17 +72,22 @@ namespace Project
         public void RandomFilling()
         {
             var rnd = new Random(DateTime.Now.Millisecond);
+            var changes = new List<(int x, int y, bool newValue)>();
 
-            for (int y = 1; y < GameSize + 1; y++)
+            for (int y = 1; y < _gameSize + 1; y++)
             {
-                for (int x = 1; x < GameSize + 1; x++)
+                for (int x = 1; x < _gameSize + 1; x++)
                 {
                     if (rnd.Next(5) > 3)
                     {
                         _zone[y, x] = true;
+
+                        changes.Add((x, y, true));
                     }
                 }
             }
+
+            Changes?.Invoke(changes);
         }
 
         /// <summary>
