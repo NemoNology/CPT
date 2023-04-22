@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Channels;
 
 namespace Project
 {
@@ -37,9 +38,9 @@ namespace Project
             bool[,] buffer = new bool[_gameSize + 2, _gameSize + 2];
             var changes = new List<(int x, int y, bool newValue)>();
 
-            for (int y = 1; y < _gameSize + 1; y++)
+            for (int y = 1; y <= _gameSize; y++)
             {
-                for (int x = 1; x < _gameSize + 1; x++)
+                for (int x = 1; x <= _gameSize; x++)
                 {
                     var neighborsAmount = CalculateNeighbors(x, y);
                     var isCellLive = _zone[y, x];
@@ -74,15 +75,15 @@ namespace Project
             var rnd = new Random(DateTime.Now.Millisecond);
             var changes = new List<(int x, int y, bool newValue)>();
 
-            for (int y = 1; y < _gameSize + 1; y++)
+            for (int y = 1; y <= _gameSize; y++)
             {
-                for (int x = 1; x < _gameSize + 1; x++)
+                for (int x = 1; x <= _gameSize; x++)
                 {
                     if (rnd.Next(5) > 3)
                     {
                         _zone[y, x] = true;
 
-                        changes.Add((x, y, true));
+                        changes.Add(new(x - 1, y - 1, true));
                     }
                 }
             }
@@ -98,6 +99,8 @@ namespace Project
         public void ChangeStateForCell(int x, int y)
         {
             _zone[y, x] = !_zone[y, x];
+
+            Changes?.Invoke(new List<(int x, int y, bool newValue)> { (x, y, _zone[y, x]) });
         }
 
         /// <summary>
