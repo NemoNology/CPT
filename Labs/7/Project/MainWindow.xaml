@@ -5,8 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Life - the game" 
+        WindowStartupLocation="CenterScreen"
+        Height="450" Width="800">
+    
     <Grid>
 
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+
+            <Button Content="Continue"
+                    Margin="10"
+                    Padding="10, 5" />
+
+            <Button Content="Stop"
+                    Margin="10"
+                    Padding="10, 5" />
+
+
+        </StackPanel>
+
+        <Border Background="Gray" >
+
+            <Image x:Name="mainView"
+                   RenderOptions.BitmapScalingMode="NearestNeighbor" />
+
+        </Border>
+
     </Grid>
+    
 </Window>
