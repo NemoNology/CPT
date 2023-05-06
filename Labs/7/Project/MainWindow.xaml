@@ -1,9 +1,9 @@
-﻿<Window x:Class="Project.MainWindow"
+﻿<Window x:Class="ProjectWPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Project"
+        xmlns:local="clr-namespace:ProjectWPF"
         mc:Ignorable="d"
         Title="Life - the game" 
         WindowStartupLocation="CenterScreen"
@@ -38,18 +38,24 @@
                     Padding="5"
                     Click="RandomizeGameZone_Click" />
 
-            <Label x:Name="outputMouseCoordinates" 
+            <Label Content="Threads amount:" 
                    VerticalContentAlignment="Center" />
+
+            <TextBox x:Name="inputThreadsAmount" 
+                     MinWidth="50" 
+                     VerticalAlignment="Center" TextChanged="InputThreadsAmount_TextChanged" />
 
 
         </StackPanel>
 
         <Border Background="Gray" >
 
-            <Image x:Name="mainView"
-                   RenderOptions.BitmapScalingMode="NearestNeighbor"
-                   MouseMove="MainView_MouseMove"
-                   MouseDown="MainView_MouseDown" />
+            <Image x:Name="outputView" 
+                  RenderOptions.BitmapScalingMode="NearestNeighbor" >
+                
+                
+
+            </Image>
 
         </Border>
 

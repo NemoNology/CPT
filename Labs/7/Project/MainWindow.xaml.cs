@@ -1,24 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Color = System.Drawing.Color;
+using Brushes = System.Windows.Media.Brushes;
+using Project;
+using System.Drawing;
 
-namespace Project
+namespace ProjectWPF
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
 
-            _gameLife.Changes += RedrawImage;
+            _gameLife.Changes += RedrawView;
 
-            mainView.Source = BitmapToImageSource(_mainViewBuffer);
+            inputThreadsAmount.Text = "1";
 
             Task.Factory.StartNew(GameSimulate);
         }
@@ -30,6 +34,8 @@ namespace Project
 
         private bool _isSimulationAlive = false;
 
+        private int _threadsAmount = 1;
+
         // For locking
         private readonly object _mutex = new();
 
@@ -40,9 +46,9 @@ namespace Project
         /// <returns> Converted Bitmap as ImageSource </returns>
         private ImageSource BitmapToImageSource(Bitmap bitmap)
         {
-            MemoryStream ms = new ();
+            MemoryStream ms = new();
             bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-            BitmapImage image = new ();
+            BitmapImage image = new();
             image.BeginInit();
             ms.Seek(0, SeekOrigin.Begin);
             image.StreamSource = ms;
@@ -55,7 +61,7 @@ namespace Project
         /// Redraw main view by updated cells values
         /// </summary>
         /// <param name="changes"></param>
-        private async void RedrawImage(List<(int x, int y, bool newCellValue)> changes)
+        private async void RedrawView(List<(int x, int y, bool newCellValue)> changes)
         {
             var liveCellColor = Color.White;
             var deadCellColor = Color.Black;
@@ -66,10 +72,10 @@ namespace Project
                     change.newCellValue ? liveCellColor : deadCellColor);
             }
 
-            
+
             await Dispatcher.InvokeAsync(() =>
             {
-                mainView.Source = BitmapToImageSource(_mainViewBuffer);
+                outputView.Source = BitmapToImageSource(_mainViewBuffer);
             });
         }
 
@@ -99,44 +105,128 @@ namespace Project
         /// </summary>
         private async void GameSimulate()
         {
+            var changes = new List<(int x, int y, bool newCellValue)>();
+            Task<List<(int x, int y, bool newCellValue)>>[] tasksPool;
+
+            var liveCellColor = Color.White;
+            var deadCellColor = Color.Black;
+
+            // TODO: Out of Range Exception
+
             while (true)
             {
                 if (_isSimulationAlive)
                 {
-                    lock (_mutex)
+                    tasksPool = new Task<List<(int x, int y, bool newCellValue)>>[_threadsAmount];
+                    var partSize = GameSize / _threadsAmount;
+                    var isEven = _threadsAmount % 2 == 0;
+
+                    for (int i = 0; i <= _threadsAmount - 1; i++)
                     {
-                        _gameLife.Move();
+                        if (isEven)
+                        {
+                            if (i < partSize % _threadsAmount)
+                            {
+                                tasksPool[i] = Task.Factory.StartNew(() =>
+                                    _gameLife.MovePart(
+                                        i * partSize + 1,
+                                        (i + 2) * partSize + 1,
+                                        i * partSize + 1,
+                                        (i + 2) * partSize + 1)
+                                );
+
+                                i++;
+                            }
+                            else
+                            {
+                                tasksPool[i] = Task.Factory.StartNew(() =>
+                                    _gameLife.MovePart(
+                                        i * partSize + 1,
+                                        (i + 1) * partSize + 1,
+                                        i * partSize + 1,
+                                        (i + 1) * partSize + 1)
+                                );
+                            }
+
+                        }
+                        else
+                        {
+                            if (i < partSize % _threadsAmount)
+                            {
+                                tasksPool[i] = Task.Factory.StartNew(() =>
+                                    _gameLife.MovePart(
+                                        i * partSize + 1,
+                                        (i + 2) * partSize + 1,
+                                        1, GameSize + 1)
+                                );
+
+                                i++;
+                            }
+                            else
+                            {
+                                tasksPool[i] = Task.Factory.StartNew(() =>
+                                    _gameLife.MovePart(
+                                        i * partSize + 1,
+                                        (i + 1) * partSize + 1,
+                                        1, GameSize + 1)
+                                );
+                            }
+                        }
                     }
+                    
+                    await Task.WhenAll(tasksPool);
+
+                    foreach (var task in tasksPool)
+                    {
+                        changes.AddRange(task.Result);
+
+                        foreach (var (x, y, newCellValue) in changes)
+                        {
+                            _mainViewBuffer.SetPixel(x, y,
+                                newCellValue ? liveCellColor : deadCellColor);
+                        }
+                    }
+
+                    await Dispatcher.InvokeAsync(() =>
+                    {
+                        outputView.Source = BitmapToImageSource(_mainViewBuffer);
+                    });
                 }
 
-                await Task.Delay(600);
+                // Synchronization
+                lock (_mutex)
+                {
+                    _gameLife.ChangeZoneByChangesList(changes);
+                }
+
+                changes.Clear();
+
+                await Task.Delay(500);
             }
         }
 
-        private void MainView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void ViewInit()
         {
-            var coordinates = e.GetPosition(sender as IInputElement);
-
-            var x = Math.Round(coordinates.X * GameSize / mainView.ActualWidth, 
-                MidpointRounding.ToPositiveInfinity);
-            var y = Math.Round(coordinates.Y * GameSize / mainView.ActualHeight,
-                MidpointRounding.ToPositiveInfinity);
-
-            outputMouseCoordinates.Content = $"{x}, {y}";
+            
         }
 
-        private void MainView_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void InputThreadsAmount_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            var coordinates = e.GetPosition(sender as IInputElement);
-
-            var x = Math.Round(coordinates.X * GameSize / mainView.ActualWidth,
-                MidpointRounding.ToPositiveInfinity);
-            var y = Math.Round(coordinates.Y * GameSize / mainView.ActualHeight,
-                MidpointRounding.ToPositiveInfinity);
+            if (inputThreadsAmount == null)
+            {
+                return;
+            }
 
             lock (_mutex)
             {
-                _gameLife.ChangeStateForCell((int)x, (int)y);
+                if (!int.TryParse(inputThreadsAmount.Text, out _threadsAmount))
+                {
+                    inputThreadsAmount.Foreground = Brushes.Red;
+                }
+                else
+                {
+                    inputThreadsAmount.Foreground = Brushes.Black;
+                }
             }
         }
     }
