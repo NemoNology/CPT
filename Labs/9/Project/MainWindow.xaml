@@ -5,8 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Сети Петри" 
+        Height="450" 
+        Width="800">
+    
     <Grid>
 
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+
+        </Grid.ColumnDefinitions>
+
+        <Canvas x:Name="mainView">
+
+        </Canvas>
+
+        <Grid Grid.Column="1" >
+
+            <Grid.RowDefinitions>
+
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+
+            </Grid.RowDefinitions>
+
+            <Button Content="Add new Position (P)"/>
+
+        </Grid>
+
     </Grid>
+    
 </Window>
